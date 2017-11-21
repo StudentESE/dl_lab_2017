@@ -1,7 +1,7 @@
 # Report Exercise 2
 In general it was hard to handle pool computers but finally it works. Problems come from quotas mainly.
 
-Because of missleading messages from CUDA I thought Tensorflow everytime uses the GPU:0. To compare it with CPU computations I first compared Pool PC GPU with the CPU of my Mac Book Pro (MBP). Later I got the point but left the measurements in this report.
+Because Tensorflow and CUDA on the Pool PC uses GPU:0 only (also with ```tf.device('/device:CPU:0'):```) I added measurements from my Laptops CPU (MBP).
 
 # CNN
 The submitted code bases mostly on the Tensorflow Example [1] and was extended by the need from the exercise. The extended parts are documented in the code.
@@ -16,7 +16,7 @@ With higher learning rate the optimization takes less epoches. With 100 epoches 
 ![Lerning Rate](./compareLerningRates.png)
 
 # Runtime
-Using a GPU the runtime is increased very strong due to its parallel working strategy.
+Using a GPU the runtime is increased very strong due to its parallel working strategy. As one can see on the plot there are three instead of expected two sources. As initially mentioned CUDA seams to use GPU:0 also if one likes to use the CPU:0. For that reason the CPU:0 of a Laptop is added.
 
 ~~~
 GPU Training on a Pool PC
