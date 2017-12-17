@@ -2,15 +2,15 @@ import numpy as np
 
 class Options:
     #
-    disp_on = True # you might want to set it to False for speed
+    disp_on = False # you might want to set it to False for speed
     map_ind = 0
     change_tgt = False
-    states_fil = "states.csv"
-    labels_fil = "labels.csv"
+    states_fil = "../data/states.csv"
+    labels_fil = "../data/labels.csv"
     network_fil = "network.json"
     weights_fil = "network.h5"
     # simulator config
-    disp_interval = .005
+    disp_interval = .1#.005
     if map_ind == 0:
         cub_siz = 5
         pob_siz = 5 # for partial observation
@@ -31,9 +31,18 @@ class Options:
         tgt_x = None
     act_num = 5
 
+    # network hyper params
+    device = "/cpu:0"
+    path = "/Users/danielbunzendahl/Downloads/assignment_03/data/network_config/model.ckpt"
+    num_filters = 8
+    num_units_linear_layer = 8 # seems to work good, idea: 8 neighbour cells to robot
+
     # traing hyper params
     hist_len = 4
     minibatch_size  = 32
+    num_epochs = 10
+    learning_rate = 0.01
+
     n_minibatches   = 500
     valid_size      = 500
     eval_nepisodes  = 10
@@ -54,7 +63,7 @@ class State: # return tuples made easy
 
 # The following functions were taken from scikit-image
 # https://github.com/scikit-image/scikit-image/blob/master/skimage/color/colorconv.py
-        
+
 def rgb2gray(rgb):
     if rgb.ndim == 2:
         return np.ascontiguousarray(rgb)

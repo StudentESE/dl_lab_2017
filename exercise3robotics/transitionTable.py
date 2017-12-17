@@ -63,7 +63,7 @@ class TransitionTable:
         self.states = np.loadtxt(self.states_fil, delimiter=',')
         self.labels = np.loadtxt(self.labels_fil, delimiter=',').astype("int")
         assert self.states.shape[0] == self.labels.shape[0]
-        self.size   = self.states.shape[0]
+        self.size = self.states.shape[0]
         self.minibatchNum = int(self.size - self.valid_size) / int(self.minibatch_size)
         self.minibatchInd = None
         self.stack_hist()

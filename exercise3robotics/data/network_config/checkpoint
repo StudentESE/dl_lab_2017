@@ -1,0 +1,2 @@
+model_checkpoint_path: "/Users/Max/Documents/workspace/dl_lab/assignment_03/data/network_config/model.ckpt"
+all_model_checkpoint_paths: "/Users/Max/Documents/workspace/dl_lab/assignment_03/data/network_config/model.ckpt"

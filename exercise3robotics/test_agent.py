@@ -2,21 +2,17 @@ import numpy as np
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
-from random import randrange
+
 # custom modules
 from utils     import Options, rgb2gray
 from simulator import Simulator
+# my agent class
+from agent import Agent
 
 # 0. initialization
 opt = Options()
 sim = Simulator(opt.map_ind, opt.cub_siz, opt.pob_siz, opt.act_num)
-
-# TODO: load your agent
-# Hint: If using standard tensorflow api it helps to write your own model.py  
-# file with the network configuration, including a function model.load().
-# You can use saver = tf.train.Saver() and saver.restore(sess, filename_cpkt)
-
-agent =None
+agent = Agent()
 
 # 1. control loop
 if opt.disp_on:
@@ -25,12 +21,11 @@ if opt.disp_on:
 epi_step = 0    # #steps in current episode
 nepisodes = 0   # total #episodes executed
 nepisodes_solved = 0
-action = 0     # action to take given by the network
 
 # start a new game
 state = sim.newGame(opt.tgt_y, opt.tgt_x)
 for step in range(opt.eval_steps):
-
+    print("\rStep {}/{}".format(step,opt.eval_steps ))
     # check if episode ended
     if state.terminal or epi_step >= opt.early_stop:
         epi_step = 0
@@ -40,12 +35,7 @@ for step in range(opt.eval_steps):
         # start a new game
         state = sim.newGame(opt.tgt_y, opt.tgt_x)
     else:
-        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        # TODO: here you would let your agent take its action
-        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        # Hint: get the image using rgb2gray(state.pob), append latest image to a history 
-        # this just gets a random action
-        action = randrange(opt.act_num)
+        action = agent.compute_next_action(state)
         state = sim.step(action)
 
         epi_step += 1
@@ -76,3 +66,4 @@ for step in range(opt.eval_steps):
 # 2. calculate statistics
 print(float(nepisodes_solved) / float(nepisodes))
 # 3. TODO perhaps  do some additional analysis
+# TODO: would be interesting to compare steps taken by A* and steps taken by agent
