@@ -105,9 +105,11 @@ for i in hp_sets:
 
 		# 2. calculate statistics
 		if(nepisodes > 0):
-			print(float(nepisodes_solved) / float(nepisodes))
-			solveQuote[c][0] = float(nepisodes_solved) / float(nepisodes)
-		c += 1
+			#print(float(nepisodes_solved) / float(nepisodes))
+			#print('solveQuote[c] with c= ',c)
+			solveQuote[c][0] = (float(nepisodes_solved) / float(nepisodes))
+	print('C = ',c)
+	c += 1
 		#else:
 		#	print('...')
 		# 3. TODO perhaps  do some additional analysis
