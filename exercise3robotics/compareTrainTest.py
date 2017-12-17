@@ -92,6 +92,9 @@ for i in hp_sets:
 		    plt.draw()
 
 		# 2. calculate statistics
-		print(float(nepisodes_solved) / float(nepisodes))
+		if(nepisodes > 0):
+			print(float(nepisodes_solved) / float(nepisodes))
+		else:
+			print('...')
 		# 3. TODO perhaps  do some additional analysis
 		# TODO: would be interesting to compare steps taken by A* and steps taken by agent
