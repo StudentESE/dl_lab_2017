@@ -40,7 +40,7 @@ for i in hp_sets:
 
 	agent = Agent()
 	accuracy = agent.train(train_data, valid_data)
-	print("Achieved validation accuracy of %f for target at {},{}".format(accuracy,opt.tgt_x,opt.tgt_y))
+	print("Achieved validation accuracy of {} for target at {},{}".format(accuracy,opt.tgt_x,opt.tgt_y))
 
 	# 1. control loop
 	if opt.disp_on:
@@ -94,7 +94,7 @@ for i in hp_sets:
 		# 2. calculate statistics
 		if(nepisodes > 0):
 			print(float(nepisodes_solved) / float(nepisodes))
-		else:
-			print('...')
+		#else:
+		#	print('...')
 		# 3. TODO perhaps  do some additional analysis
 		# TODO: would be interesting to compare steps taken by A* and steps taken by agent
