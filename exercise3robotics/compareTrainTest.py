@@ -29,7 +29,7 @@ hp_sets.append({'change_tgt': True, 'tgt_y':12,'tgt_x':5})
 hp_sets.append({'change_tgt': True, 'tgt_y':9,'tgt_x':22})
 hp_sets.append({'change_tgt': True, 'tgt_y':17,'tgt_x':5})
 print("go:",hp_sets)
-solveQuote = np.zeros((len(hp_sets),3))
+solveQuote = np.zeros((len(hp_sets),4))
 print(solveQuote)
 c = 0
 for i in hp_sets:
@@ -53,7 +53,7 @@ for i in hp_sets:
 	agent = Agent()
 	accuracy = agent.train(train_data, valid_data)
 	print("Achieved validation accuracy of {} for target at {},{}".format(accuracy,opt.tgt_x,opt.tgt_y))
-
+	solveQuote[c][3] = accuracy
 	# 1. control loop
 	if opt.disp_on:
 		win_all = None
@@ -115,4 +115,4 @@ for i in hp_sets:
 print('Validation Accuracy: ',solveQuote)
 
 for x in solveQuote:
-	print("Solved {} Episodes for Goal at {},{}".format(x[0],x[1],x[2]))
+	print("Solved {} Episodes for Goal at {},{} with validation accuracy of {}%".format(x[0],x[1],x[2],x[3]*100))
