@@ -34,7 +34,7 @@ for i in hp_sets:
 	opt.change_tgt = i['change_tgt']
 	opt.tgt_y = i['tgt_y']
 	opt.tgt_x = i['tgt_x']
-	print(opt)
+	#print(opt)
 
 	#continue
 	sim = Simulator(opt.map_ind, opt.cub_siz, opt.pob_siz, opt.act_num)
@@ -61,7 +61,7 @@ for i in hp_sets:
 	# start a new game
 	state = sim.newGame(opt.tgt_y, opt.tgt_x)
 	for step in range(opt.eval_steps):
-		print("\rStep {}/{}".format(step,opt.eval_steps ))
+		#print("\rStep {}/{}".format(step,opt.eval_steps ))
 		# check if episode ended
 		if state.terminal or epi_step >= opt.early_stop:
 		    epi_step = 0
