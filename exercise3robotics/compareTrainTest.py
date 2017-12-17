@@ -29,13 +29,17 @@ hp_sets.append({'change_tgt': True, 'tgt_y':12,'tgt_x':5})
 hp_sets.append({'change_tgt': True, 'tgt_y':9,'tgt_x':22})
 hp_sets.append({'change_tgt': True, 'tgt_y':17,'tgt_x':5})
 print("go:",hp_sets)
+solveQuote = np.zeros((len(hp_sets),3))
+print(solveQuote)
+c = 0
 for i in hp_sets:
 	print("i ",i)
 	opt.change_tgt = i['change_tgt']
 	opt.tgt_y = i['tgt_y']
 	opt.tgt_x = i['tgt_x']
 	#print(opt)
-
+	solveQuote[c][1] = opt.tgt_x
+	solveQuote[c][2] = opt.tgt_y
 	#continue
 	sim = Simulator(opt.map_ind, opt.cub_siz, opt.pob_siz, opt.act_num)
 	trans = TransitionTable(opt.state_siz, opt.act_num, opt.hist_len,
@@ -102,7 +106,13 @@ for i in hp_sets:
 		# 2. calculate statistics
 		if(nepisodes > 0):
 			print(float(nepisodes_solved) / float(nepisodes))
+			solveQuote[c][0] = float(nepisodes_solved) / float(nepisodes)
+		c += 1
 		#else:
 		#	print('...')
 		# 3. TODO perhaps  do some additional analysis
 		# TODO: would be interesting to compare steps taken by A* and steps taken by agent
+print('Validation Accuracy: ',solveQuote)
+
+for x in solveQuote:
+	print("Solved {} Episodes for Goal at {},{}".format(x[0],x[1],x[2]))
