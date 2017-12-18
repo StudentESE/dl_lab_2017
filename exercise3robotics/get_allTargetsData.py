@@ -55,17 +55,17 @@ for i in hp_sets:
 	    # save data & label
 	    #print("Shapes: ",rgb2gray(state.pob).shape)
 	    if(state.pob.shape[0] != 25):
-	    	while(rgb2gray(state.pob).shape[0] != 25):
-	    		print("Shape fixed: ",rgb2gray(state.pob).shape[0])
+	    	while(state.pob.shape[0] != 25):
+	    		print("Shape[0] fixed: ",state.pob.shape[0])
 		    	#state.pob = np.expand_dims(state.pob, axis=0)
-		    	row = np.zeros((1,25))
-		    	state.pob = np.append(rgb2gray(state.pob),row, axis=0)
+		    	row = np.ones((1,25))
+		    	state.pob = np.append(state.pob,row, axis=0)
 		if(state.pob.shape[1] != 25):
-			while(rgb2gray(state.pob).shape[1] != 25):
-				print("Shape fixed: ",rgb2gray(state.pob).shape[1])
+			while(state.pob.shape[1] != 25):
+				print("Shape[1] fixed: ",state.pob.shape[1])
 				#state.pob = np.expand_dims(state.pob, axis=1)
-		    	col = np.zeros((25,1))
-		    	state.pob = np.append(rgb2gray(state.pob),col, axis=1)
+		    	col = np.ones((25,1))
+		    	state.pob = np.append(state.pob,col, axis=1)
 	    states[step, :] = rgb2gray(state.pob).reshape(opt.state_siz)
 	    labels[step]    = state.action
 
