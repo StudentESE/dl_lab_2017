@@ -72,6 +72,7 @@ for i in hp_sets:
 		if((rgb2gray(state.pob).shape[0] != 25) or (rgb2gray(state.pob).shape[1] != 25)):
 			print("Shape: ",state.pob.shape)
 			continue
+		print("Shape: ",rgb2gray(state.pob).shape)
 	    states[step, :] = rgb2gray(state.pob).reshape(opt.state_siz)
 	    labels[step]    = state.action
 
