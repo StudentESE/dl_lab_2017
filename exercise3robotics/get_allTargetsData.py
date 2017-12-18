@@ -53,6 +53,19 @@ for i in hp_sets:
 	        state = sim.step() # will perform A* actions
 
 	    # save data & label
+	    print("Shapes: ",rgb2gray(state.pob).shape)
+	    if(state.pob.shape[0] != 25):
+	    	while(rgb2gray(state.pob).shape[0] != 25):
+	    		print("fill 0",rgb2gray(state.pob).shape)
+		    	#state.pob = np.expand_dims(state.pob, axis=0)
+		    	row = np.zeros((1,25))
+		    	state.pob = np.append(rgb2gray(state.pob),row, axis=0)
+		if(state.pob.shape[1] != 25):
+			while(rgb2gray(state.pob).shape[1] != 25):
+				print("fill 1",rgb2gray(state.pob).shape)
+				#state.pob = np.expand_dims(state.pob, axis=1)
+		    	col = np.zeros((25,1))
+		    	state.pob = np.append(rgb2gray(state.pob),col, axis=1)
 	    states[step, :] = rgb2gray(state.pob).reshape(opt.state_siz)
 	    labels[step]    = state.action
 
