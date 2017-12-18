@@ -20,6 +20,8 @@ hp_sets.append({'change_tgt': True, 'tgt_y':12,'tgt_x':5})
 hp_sets.append({'change_tgt': True, 'tgt_y':9,'tgt_x':22})
 hp_sets.append({'change_tgt': True, 'tgt_y':17,'tgt_x':5})
 print("go:",hp_sets)
+states = np.zeros([opt.data_steps, opt.state_siz], float)
+labels = np.zeros([opt.data_steps], int)
 for i in hp_sets:
 	print("i ",i)
 	opt.change_tgt = i['change_tgt']
@@ -27,8 +29,7 @@ for i in hp_sets:
 	opt.tgt_x = i['tgt_x']
 	
 	sim = Simulator(opt.map_ind, opt.cub_siz, opt.pob_siz, opt.act_num)
-	states = np.zeros([opt.data_steps, opt.state_siz], float)
-	labels = np.zeros([opt.data_steps], int)
+	
 
 	# Note I am forcing the display to be off here to make data collection fast
 	# you can turn it on again for debugging purposes
