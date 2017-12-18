@@ -256,8 +256,10 @@ class Simulator:
 
     def step(self, action=None):
         if action is None: # NOTE: when no action is given, will take the A* action
-            assert len(self.astar_act_lst) > 0
-            self.state_action = self.astar_act_lst.pop()
+            #print(self.astar_act_lst)
+            #assert len(self.astar_act_lst) > 0
+            if(len(self.astar_act_lst) > 0):
+                self.state_action = self.astar_act_lst.pop()
         else:
             self.state_action = action
         self.state_reward   = -0.04
