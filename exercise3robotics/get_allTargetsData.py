@@ -3,23 +3,24 @@ from random import randrange
 # custom modules
 from utils     import Options, rgb2gray
 from simulator import Simulator
-
+from createMaxGoalTrainingSet import hp_sets
 # Initialization
 opt = Options()
 
 # different hyper param settings
-hp_sets = []
-hp_sets.append({'change_tgt': True, 'tgt_y':2,'tgt_x':2})
-hp_sets.append({'change_tgt': True, 'tgt_y':25,'tgt_x':11})
-hp_sets.append({'change_tgt': True, 'tgt_y':25,'tgt_x':25})
-hp_sets.append({'change_tgt': True, 'tgt_y':2,'tgt_x':25})
-hp_sets.append({'change_tgt': True, 'tgt_y':20,'tgt_x':20})
-hp_sets.append({'change_tgt': True, 'tgt_y':6,'tgt_x':23})
-hp_sets.append({'change_tgt': True, 'tgt_y':16,'tgt_x':10})
-hp_sets.append({'change_tgt': True, 'tgt_y':12,'tgt_x':5})
-hp_sets.append({'change_tgt': True, 'tgt_y':9,'tgt_x':22})
-hp_sets.append({'change_tgt': True, 'tgt_y':17,'tgt_x':5})
-print("go:",hp_sets)
+hp_sets = hp_sets
+#hp_sets.append({'change_tgt': True, 'tgt_y':2,'tgt_x':2})
+#hp_sets.append({'change_tgt': True, 'tgt_y':25,'tgt_x':11})
+#hp_sets.append({'change_tgt': True, 'tgt_y':25,'tgt_x':25})
+#hp_sets.append({'change_tgt': True, 'tgt_y':2,'tgt_x':25})
+#hp_sets.append({'change_tgt': True, 'tgt_y':20,'tgt_x':20})
+#hp_sets.append({'change_tgt': True, 'tgt_y':6,'tgt_x':23})
+#hp_sets.append({'change_tgt': True, 'tgt_y':16,'tgt_x':10})
+#hp_sets.append({'change_tgt': True, 'tgt_y':12,'tgt_x':5})
+#hp_sets.append({'change_tgt': True, 'tgt_y':9,'tgt_x':22})
+#hp_sets.append({'change_tgt': True, 'tgt_y':17,'tgt_x':5})
+
+
 states = np.zeros([opt.data_steps, opt.state_siz], float)
 labels = np.zeros([opt.data_steps], int)
 for i in hp_sets:
