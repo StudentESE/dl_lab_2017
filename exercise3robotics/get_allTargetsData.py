@@ -70,6 +70,7 @@ for i in hp_sets:
 		    	state.pob = np.append(rgb2gray(state.pob),col, axis=1)
 		    	print("Shape[1] fixed: ",state.pob.shape[1])
 		if((rgb2gray(state.pob).shape[0] != 25) or (rgb2gray(state.pob).shape[1] != 25)):
+			print("Shape: ",state.pob.shape)
 			continue
 	    states[step, :] = rgb2gray(state.pob).reshape(opt.state_siz)
 	    labels[step]    = state.action
