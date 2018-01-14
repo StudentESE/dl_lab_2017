@@ -1,8 +1,7 @@
 import numpy as np
 
 class Options:
-    #
-    disp_on = True # you might want to set it to False for speed
+    disp_on = False # you might want to set it to False for speed
     map_ind = 1
     change_tgt = False
     states_fil = "states.csv"
@@ -24,17 +23,22 @@ class Options:
         # this defines the goal positionw
         tgt_y = 5
         tgt_x = 5
-        early_stop = 75
+        early_stop = 20#75#10#75
     state_siz = (pob_siz * cub_siz) ** 2 # when use pob as input
     if change_tgt:
         tgt_y = None
         tgt_x = None
     act_num = 5
 
-    # traing hyper params    
+    # traing hyper params
     hist_len = 4
     minibatch_size  = 32
     eval_nepisodes  = 10
+    learning_rate = 0.00001
+
+    # network hyper params
+    num_filters = 8
+    num_units_linear_layer = 8
 
 class State: # return tuples made easy
     def __init__(self, action, reward, screen, terminal, pob):
@@ -47,7 +51,7 @@ class State: # return tuples made easy
 
 # The following functions were taken from scikit-image
 # https://github.com/scikit-image/scikit-image/blob/master/skimage/color/colorconv.py
-        
+
 def rgb2gray(rgb):
     if rgb.ndim == 2:
         return np.ascontiguousarray(rgb)
