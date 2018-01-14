@@ -24,7 +24,7 @@ agent = Agent()
 sess = tf.Session()
 
 saver = tf.train.Saver()
-saver.restore(sess, "./data/policies.ckpt")
+saver.restore(sess, "./data_instanz1/policies.ckpt")
 
 
 steps = 1000
@@ -35,6 +35,9 @@ solved_episodes = 0 # TODO
 state = sim.newGame(opt.tgt_y, opt.tgt_x)
 for step in range(steps):
     if state.terminal or epi_step >= opt.early_stop:
+        print("\rEpisode {} ({}), solved {}".format(nepisodes, epi_step, solved_episodes))
+        if epi_step < opt.early_stop:
+            solved_episodes+=1
         epi_step = 0
         nepisodes += 1
         # reset the game
