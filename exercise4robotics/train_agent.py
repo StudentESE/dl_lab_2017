@@ -120,3 +120,4 @@ for step in range(steps):
 
 # 2. perform a final test of your model and save it
 # TODO
+print("Hyperparameters used: ",opt)
