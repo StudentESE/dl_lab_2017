@@ -45,7 +45,7 @@ for step in range(steps):
 
     # simulation step
     epi_step+=1
-    action = agent.make_greedy_action(sess, rgb2gray(state.pob).reshape(opt.state_siz),0.0)
+    action = agent.make_greedy_action(sess, rgb2gray(state.pob).reshape(opt.state_siz))
     next_state = sim.step(action)
 
     if win_all is None:
