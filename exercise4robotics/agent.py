@@ -45,32 +45,33 @@ class Agent():
             filters=opt.num_filters,
             kernel_size=[3, 3],
             padding="same",
+            kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01), #tf.random_uniform_initializer(0, 0.01),
             activation=tf.nn.relu)
-        out_pool1 = tf.layers.max_pooling2d(inputs=out_conv1, pool_size=[2, 2], strides=2)
+        #initiliaze 0.01 (default is 0.1), 5000 steps
 
         out_conv2 = tf.layers.conv2d(
-            inputs=out_pool1,
+            inputs=out_conv1,
             filters=opt.num_filters,
             kernel_size=[3, 3],
             padding="same",
+            kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01), #tf.random_uniform_initializer(0, 0.01),
             activation=tf.nn.relu)
-        out_pool2 = tf.layers.max_pooling2d(inputs=out_conv2, pool_size=[2, 2], strides=2)
 
-        flat_shape = int(out_pool2.shape[1]*out_pool2.shape[2]*out_pool2.shape[3])
-        out_pool2_flat = tf.reshape(out_pool2, [-1, flat_shape])
+        flat_shape = int(out_conv2.shape[1]*out_conv2.shape[2]*out_conv2.shape[3])
+        out_conv2_flat = tf.reshape(out_conv2, [-1, flat_shape])
 
         out_fcon1 = tf.layers.dense(
-            inputs=out_pool2_flat,
+            inputs=out_conv2_flat,
             units=opt.num_units_linear_layer,
+            kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01), #tf.random_uniform_initializer(0, 0.01),
             activation=tf.nn.relu)
 
         out_fcon2 = tf.layers.dense(
             inputs=out_fcon1,
-            units=opt.act_num,
-            activation=tf.nn.relu)
+            kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01), #tf.random_uniform_initializer(0, 0.01),
+            units=opt.act_num)
 
-        # note: contrib layers are experimental
-        predictions = tf.contrib.layers.softmax(out_fcon2)
+        predictions = out_fcon2
         return predictions
 
 
@@ -109,10 +110,9 @@ class Agent():
         """
         TODO, clear if new episode starts
         """
-        history[:] = 0
+        self.history[:] = 0
 
-    def make_greedy_action(self, sess, obs):
-
+    def compute_q(self, sess, obs):
         def append_to_hist(obs):
             """
             Add observation to the history.
@@ -123,16 +123,29 @@ class Agent():
 
         append_to_hist(obs)
         network_input = self.history.reshape(-1)
-        best_action = sess.run(tf.argmax(self.Q, axis=1), feed_dict={self.states: [network_input]})
-        return best_action[0]
+        q_ = sess.run(self.Q, feed_dict={self.states: [network_input]})[0]
+        return q_
 
-    def make_epsilon_greedy_action(self, sess, obs, epsilon=0.1):
+    def make_greedy_action(self, sess, obs):
+        q_ = self.compute_q(sess, obs)
+        best_action = np.argmax(q_)
+        return best_action
+
+    def make_epsilon_greedy_action(self, sess, obs, epsilon=0.95):
         best_action = self.make_greedy_action(sess, obs)
         probability = np.ones(opt.act_num, dtype=float) * epsilon / opt.act_num
         probability[best_action] += (1.0 - epsilon)
 
         action = np.random.choice(np.arange(opt.act_num), p=probability)
         return action
+
+    def make_super_greedy_action(self, sess, obs):
+        """
+        TODO, makes greedy action but never "null" step (i.e does not stay in place)
+        """
+        q_ = self.compute_q(sess, obs)
+        best_action = np.argmax(q_[1:len(q_)]) + 1
+        return best_action
 
     def train(self, sess, state_batch, action_batch, next_state_batch, reward_batch, terminal_batch):
         """
