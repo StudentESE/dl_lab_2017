@@ -1,7 +1,8 @@
 import numpy as np
 
 class Options:
-    disp_on = False # you might want to set it to False for speed
+    discount = 0.5
+    disp_on = True #False # you might want to set it to False for speed
     map_ind = 1
     change_tgt = False
     states_fil = "states.csv"
@@ -34,7 +35,7 @@ class Options:
     hist_len = 4
     minibatch_size  = 32
     #eval_nepisodes  = 10
-    learning_rate = 0.001
+    learning_rate = 0.01
 
     # network hyper params
     num_filters = 8

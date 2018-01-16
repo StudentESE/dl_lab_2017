@@ -30,7 +30,8 @@ class Agent():
             Q_next,
             best_actions_next,
             self.rewards,
-            self.terminals)
+            self.terminals,
+	    opt.discount)
 
         # Setup an optimizer in tensorflow to minimize the loss
         self.train_step = tf.train.AdamOptimizer(opt.learning_rate).minimize(self.loss)
