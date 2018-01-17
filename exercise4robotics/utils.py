@@ -1,7 +1,7 @@
 import numpy as np
 
 class Options:
-    discount = 0.5
+    discount = 0.99#0.5
     disp_on = True #False # you might want to set it to False for speed
     map_ind = 1
     change_tgt = False
@@ -29,17 +29,17 @@ class Options:
     if change_tgt:
         tgt_y = None
         tgt_x = None
-    act_num = 5
+    act_num = 5 # number of actions
 
     # traing hyper params
     hist_len = 4
     minibatch_size  = 32
-    #eval_nepisodes  = 10
+    eval_nepisodes  = 10
     learning_rate = 0.01
 
     # network hyper params
-    num_filters = 8
-    num_units_linear_layer = 64
+    num_filters = 32#8
+    num_units_linear_layer = 128#64
 
 class State: # return tuples made easy
     def __init__(self, action, reward, screen, terminal, pob):

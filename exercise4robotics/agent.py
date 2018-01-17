@@ -31,7 +31,7 @@ class Agent():
             best_actions_next,
             self.rewards,
             self.terminals,
-	    opt.discount)
+	        opt.discount)
 
         # Setup an optimizer in tensorflow to minimize the loss
         self.train_step = tf.train.AdamOptimizer(opt.learning_rate).minimize(self.loss)
@@ -40,6 +40,54 @@ class Agent():
         """
         TODO, defines structure of network, returns Q vector
         """
+        # 5 classes
+        # 0: none
+        # 1: up
+        # 2: down
+        # 3: left
+        # 4: right
+
+        # network
+        input_layer = tf.reshape(states, [-1, opt.pob_siz * opt.cub_siz, opt.pob_siz * opt.cub_siz, opt.hist_len])
+
+        # convolution layer with relu activation
+        out_conv1 = tf.layers.conv2d(
+            inputs=input_layer,
+            filters=opt.num_filters,
+            kernel_size=[5, 5],
+            padding="same",
+            kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01), #tf.random_uniform_initializer(0, 0.01),
+            activation=tf.nn.relu)
+
+        # second conv layer with relu activation
+        out_conv2 = tf.layers.conv2d(
+            inputs=out_conv1,
+            filters=opt.num_filters*2,
+            kernel_size=[5, 5],
+            padding="same",
+            kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01), #tf.random_uniform_initializer(0, 0.01),
+            activation=tf.nn.relu)
+
+        # flattern
+        flat_shape = int(out_conv2.shape[1]*out_conv2.shape[2]*out_conv2.shape[3])
+        out_conv2_flat = tf.reshape(out_conv2, [-1, flat_shape])
+
+        # dense
+        out_fcon1 = tf.layers.dense(
+            inputs=out_conv2_flat,
+            units=opt.num_units_linear_layer,
+            kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01), #tf.random_uniform_initializer(0, 0.01),
+            activation=tf.nn.relu)
+        # dense 2
+        out_fcon2 = tf.layers.dense(
+            inputs=out_fcon1,
+            kernel_initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01), #tf.random_uniform_initializer(0, 0.01),
+            units=opt.act_num,
+            activation=tf.nn.softmax)
+        # compile
+        predictions = out_fcon2
+
+        '''
         input_layer = tf.reshape(states, [-1, opt.pob_siz * opt.cub_siz, opt.pob_siz * opt.cub_siz, opt.hist_len])
         out_conv1 = tf.layers.conv2d(
             inputs=input_layer,
@@ -73,6 +121,7 @@ class Agent():
             units=opt.act_num)
 
         predictions = out_fcon2
+        '''
         return predictions
 
 
