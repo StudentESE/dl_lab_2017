@@ -7,6 +7,7 @@ from random import randrange
 import tensorflow as tf
 import numpy as np
 
+from collections import namedtuple
 
 # custom modules
 from utils     import Options, rgb2gray
@@ -38,18 +39,18 @@ if opt.disp_on:
 agent = Agent()
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
-
+Statistics = namedtuple("Stats",["loss", "tests"])
 saver = tf.train.Saver()
 #saver.restore(sess, "./data/policies.ckpt")
 
 # lets assume we will train for a total of 1 million steps
 # this is just an example and you might want to change it
-steps = 1 * 10**6 + 1
+steps = 3000#1 * 10**6 + 1
 epi_step = 0
 nepisodes = 0
 solved_episodes = 0
 loss = 0
-
+stats = Statistics(loss = np.zeros(steps), tests = np.zeros(steps // 250))
 state = sim.newGame(opt.tgt_y, opt.tgt_x)
 state_with_history = np.zeros((opt.hist_len, opt.state_siz))
 append_to_hist(state_with_history, rgb2gray(state.pob).reshape(opt.state_siz))
@@ -92,19 +93,19 @@ for step in range(steps):
     # train
     state_batch, action_batch, next_state_batch, reward_batch, terminal_batch = trans.sample_minibatch()
     loss = agent.train(sess, state_batch, action_batch, next_state_batch, reward_batch, terminal_batch)
+    stats.loss[step] = loss
     if loss > 100:
         print("Dangerous loss")
         quit()
-    #plot
-    if opt.disp_on:
-        if win_all is None:
-            plt.subplot(121)
-            win_all = plt.imshow(state.screen)
-            plt.subplot(122)
-            win_pob = plt.imshow(state.pob)
-        else:
-            win_all.set_data(state.screen)
-            win_pob.set_data(state.pob)
-        plt.pause(opt.disp_interval)
-        plt.draw()
-        plt.savefig('loss.png')
+#plot
+
+def plot_stats(stats):
+    # Plot loss over time
+    fig1 = plt.figure(figsize=(10,10))
+    plt.plot(stats.loss)
+    plt.xlabel("Timestep")
+    plt.ylabel("Loss")
+    plt.title("Loss per step")
+    fig1.savefig('loss.png')
+    #plt.show(fig1)
+plot_stats(stats)
